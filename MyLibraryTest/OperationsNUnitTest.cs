@@ -63,7 +63,10 @@ namespace MyLibrary
             List<int> result = Operations.GetEvenNumbers(start, end);
 
             //Assert
-            Assert.That(expectedNumbers == result);
+            Assert.That(expectedNumbers.IsEqualto(result);
+            Assert.That(result, IsNotEmpty);
+            Assert.That(result, DoesnotContain(3));
+            Assert.That(result, DoesContain(4));
         }
     }
 }
