@@ -53,5 +53,17 @@ namespace MyLibrary
 
 
         }
+        public void GetEventNumbers_ReturnsEvenNumbers()
+        {
+            //Arrange
+            int start = 1;
+            int end = 20;
+            List<int> expectedNumbers = new List<int>(2, 4, 6, 8, 10, 12, 14, 16, 18, 20);
+            //Act
+            List<int> result = Operations.GetEvenNumbers(start, end);
+
+            //Assert
+            Assert.That(expectedNumbers == result);
+        }
     }
 }
