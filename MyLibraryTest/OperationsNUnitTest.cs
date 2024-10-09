@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -53,20 +54,71 @@ namespace MyLibrary
 
 
         }
-        public void GetEventNumbers_ReturnsEvenNumbers()
+        [Test]
+      
+        public void GetEventNumbersInputRangeReturnsEvenNumbers()
         {
             //Arrange
+            Operations operations = new Operations();
             int start = 1;
-            int end = 20;
-            List<int> expectedNumbers = new List<int>(2, 4, 6, 8, 10, 12, 14, 16, 18, 20);
+            int end = 10;
+           
             //Act
-            List<int> result = Operations.GetEvenNumbers(start, end);
+            var result = operations.GetEvenNumbers(start, end);
 
             //Assert
-            Assert.That(expectedNumbers.IsEqualto(result);
-            Assert.That(result, IsNotEmpty);
-            Assert.That(result, DoesnotContain(3));
-            Assert.That(result, DoesContain(4));
+            Assert.That(end - start>=2, Is.True);
+            Assert.That(result, Is.Not.Empty);
+            Assert.That(result, Is.TypeOf<List<int>>());
+            Assert.That(result[0],Is.TypeOf<int>());
+            Assert.That(result, Does.Not.Contain(-1));
+            Assert.That(result.Count, Is.EqualTo(5));
+            Assert.That(result, Has.Exactly(5).Items);
+            Assert.That(result, Is.Ordered);
+            Assert.That(result, Has.Member(2));
+            Assert.That(result, Has.Member(6));
+            Assert.That(result, Has.Member(10));
+            Assert.That(result, Has.No.Member(12));
+            Assert.That(result, Has.All.GreaterThanOrEqualTo(0));
+            Assert.That(result, Is.EquivalentTo(new[] { 2, 4, 6, 8, 10}));
+            Assert.That(result[0], Is.EqualTo(2));
+            Assert.That(result, Is.Unique);
+
+
+        }
+        [TestCase(1, 20)]
+        [TestCase(1, 1000)]
+        public void GetEventNumbers_InputRange_ReturnsEvenNumbers(int start, int end)
+        {
+            //Arrange
+            Operations operations = new();
+            int startNumber = start % 2 == 0 ? start : start + 1;
+            //si el elemento start es par (?)entonces start (:)sino start+1 para que sea par
+            int endNumber = end % 2 == 0 ? end : end - 1;
+            int middleNumber = (startNumber + endNumber) / 2;
+            middleNumber= middleNumber %2 ==0 ? middleNumber : middleNumber + 1;
+            //Act
+            var result = operations.GetEvenNumbers(start, end);
+
+            //Assert
+           
+            Assert.That(end - start >= 2, Is.True);
+            Assert.That(result, Is.Not.Empty);
+            Assert.That(result, Is.TypeOf<List<int>>());
+            Assert.That(result[0], Is.TypeOf<int>());
+            Assert.That(result, Is.Ordered);
+            Assert.That(result, Has.No.All.LessThan(startNumber));
+            Assert.That(result, Does.Not.Contain(-1));
+            Assert.That(result, Has.Member(middleNumber));
+            Assert.That(result, Has.Member(endNumber));
+            Assert.That(result, Has.Member(startNumber));
+            Assert.That(result, Has.No.All.GreaterThan(endNumber));
+            Assert.That(result[0], Is.EqualTo(2));
+            Assert.That(result, Is.Unique);
+
+
         }
     }
 }
+
+
